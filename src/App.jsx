@@ -124,6 +124,29 @@ const BILAN_ICON_DATA = {
   "img_critique.png": "data:image/png;base64,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",
 };
 
+const ICON_MAX = {
+  "img_USERascendant.png": 13,
+  "img_Frugalite.png": 10,
+  "img_Gaspillage.png": 10,
+  "img_Integrite.png": 9,
+  "img_IAascendant.png": 8,
+  "img_delestage.png": 8,
+  "img_critique.png": 8,
+  "img_MonteeCptces.png": 7,
+  "img_bonpublic.png": 7,
+  "img_equality.png": 5,
+  "img_data.png": 4,
+  "img_datacloud.png": 4,
+  "img_inclusivity.png": 3,
+  "img_Duplicite.png": 3,
+  "img_Inegalite.png": 2,
+  "img_inclusion.png": 2,
+  "img_BoiteNoire.png": 1,
+  "img_Tsprence.png": 1,
+  "img_Errors.png": 1,
+  "img_Robbery.png": 1
+};
+
 const ICON_KEYS = {
   1: { a: ["img_IAascendant.png"], b: ["img_USERascendant.png"] },
   2: { a: ["img_IAascendant.png"], b: ["img_USERascendant.png"] },
@@ -848,15 +871,13 @@ export default function App() {
                               filter: count1 > 0 ? "none" : "grayscale(100%) opacity(0.3)",
                               transition: "all 0.3s",
                             }} />
-                            {count1 > 0 && (
-                              <div style={{
-                                position: "absolute", top: -6, right: -10,
-                                background: "#4fc3f7", color: "#0f0c29",
-                                borderRadius: "50%", width: 22, height: 22,
-                                fontSize: 12, fontWeight: 900,
-                                display: "flex", alignItems: "center", justifyContent: "center",
-                              }}>{count1}</div>
-                            )}
+                            <div style={{
+                              position: "absolute", top: -8, right: -18,
+                              background: count1 > 0 ? "#4fc3f7" : "rgba(255,255,255,0.1)",
+                              color: count1 > 0 ? "#0f0c29" : "#665e52",
+                              borderRadius: 10, padding: "1px 6px",
+                              fontSize: 10, fontWeight: 900, whiteSpace: "nowrap",
+                            }}>{count1}/{ICON_MAX[card.img1] || "?"}</div>
                           </div>
                           <p style={{ margin: 0, fontSize: 11, fontWeight: "bold", color: count1 > 0 ? "#4fc3f7" : "#554e46", textAlign: "center", lineHeight: 1.3 }}>{card.title1}</p>
                           <p style={{ margin: 0, fontSize: 10, color: count1 > 0 ? "#b0a898" : "#443d36", textAlign: "center", lineHeight: 1.4 }}>{card.desc1}</p>
@@ -874,15 +895,13 @@ export default function App() {
                               filter: count2 > 0 ? "none" : "grayscale(100%) opacity(0.3)",
                               transition: "all 0.3s",
                             }} />
-                            {count2 > 0 && (
-                              <div style={{
-                                position: "absolute", top: -6, right: -10,
-                                background: "#ce93d8", color: "#0f0c29",
-                                borderRadius: "50%", width: 22, height: 22,
-                                fontSize: 12, fontWeight: 900,
-                                display: "flex", alignItems: "center", justifyContent: "center",
-                              }}>{count2}</div>
-                            )}
+                            <div style={{
+                              position: "absolute", top: -8, right: -18,
+                              background: count2 > 0 ? "#ce93d8" : "rgba(255,255,255,0.1)",
+                              color: count2 > 0 ? "#0f0c29" : "#665e52",
+                              borderRadius: 10, padding: "1px 6px",
+                              fontSize: 10, fontWeight: 900, whiteSpace: "nowrap",
+                            }}>{count2}/{ICON_MAX[card.img2] || "?"}</div>
                           </div>
                           <p style={{ margin: 0, fontSize: 11, fontWeight: "bold", color: count2 > 0 ? "#ce93d8" : "#554e46", textAlign: "center", lineHeight: 1.3 }}>{card.title2}</p>
                           <p style={{ margin: 0, fontSize: 10, color: count2 > 0 ? "#b0a898" : "#443d36", textAlign: "center", lineHeight: 1.4 }}>{card.desc2}</p>
