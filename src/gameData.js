@@ -1,6 +1,5 @@
 // Auto-generated — do not edit manually
-export
-const ICON_KEYS = {
+export const ICON_KEYS = {
   1: { a: ["img_IAascendant.png"], b: ["img_USERascendant.png"] },
   2: { a: ["img_IAascendant.png"], b: ["img_USERascendant.png"] },
   3: { a: ["img_IAascendant.png"], b: ["img_USERascendant.png"] },
@@ -41,8 +40,7 @@ const ICON_KEYS = {
   38: { a: ["img_USERascendant.png", "img_inclusion.png"], b: ["img_USERascendant.png"] },
   39: { a: ["img_USERascendant.png", "img_inclusion.png"], b: ["img_USERascendant.png"] },
 };
-export
-const ICON_MAX = {
+export const ICON_MAX = {
   "img_USERascendant.png": 13,
   "img_Frugalite.png": 10,
   "img_Gaspillage.png": 10,
@@ -64,8 +62,7 @@ const ICON_MAX = {
   "img_Errors.png": 1,
   "img_Robbery.png": 1
 };
-export
-const BILAN_CARDS = [
+export const BILAN_CARDS = [
   {
     img1: "img_bonpublic.png",
     title1: "Bon public",

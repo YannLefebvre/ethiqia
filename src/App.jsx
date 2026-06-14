@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import * as XLSX from "xlsx";
 import { ICON_DATA, BILAN_ICON_DATA } from "./iconData";
 import { ICON_KEYS, ICON_MAX, BILAN_CARDS } from "./gameData";

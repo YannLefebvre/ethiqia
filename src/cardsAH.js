@@ -1,7 +1,5 @@
 // Auto-generated — do not edit manually
-import { BILAN_ICON_DATA } from "./iconData";
-export
-const CARDS_AH = [
+export const CARDS_AH = [
   {
     level: "A",
     title: "Qui a le contr\u00f4le ?",
