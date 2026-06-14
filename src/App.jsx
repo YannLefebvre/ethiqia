@@ -243,187 +243,55 @@ const TUTORIAL_STEPS = [
     emoji: "👋",
     title: "Bienvenue dans Éthiq·IA !",
     color: "#ffd764",
-    content: (
-      <div>
-        <p style={{ fontSize: 14, lineHeight: 1.7, color: "#e8e0d0", margin: "0 0 12px" }}>
-          Un <strong style={{ color: "#ffd764" }}>jeu sérieux</strong> pour explorer les questions d'éthique autour de l'intelligence artificielle.
-        </p>
-        <p style={{ fontSize: 14, lineHeight: 1.7, color: "#e8e0d0", margin: 0 }}>
-          6 règles simples à connaître avant de commencer.
-        </p>
-      </div>
-    ),
-    visual: (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, padding: "16px 0" }}>
-        <div style={{ fontSize: 52, filter: "drop-shadow(0 0 20px rgba(255,215,100,0.4))" }}>🤖</div>
-        <div style={{ fontSize: 36, color: "#ffd764" }}>⚖️</div>
-        <div style={{ fontSize: 52, filter: "drop-shadow(0 0 20px rgba(206,147,216,0.4))" }}>🧠</div>
-      </div>
-    ),
+    text: "Un jeu sérieux pour explorer les questions d'éthique autour de l'intelligence artificielle. 6 règles simples à connaître avant de commencer.",
+    visual: "welcome",
   },
   {
     emoji: "⚖️",
     title: "L'éthique, ce n'est pas la morale",
     color: "#ce93d8",
-    content: (
-      <div>
-        <div style={{ background: "rgba(206,147,216,0.12)", border: "2px solid rgba(206,147,216,0.3)", borderRadius: 12, padding: "14px 16px", marginBottom: 12 }}>
-          <p style={{ fontSize: 13, fontStyle: "italic", color: "#e8e0d0", margin: 0, lineHeight: 1.6 }}>
-            « L'éthique n'est pas la morale : il n'y a pas forcément de meilleur choix. C'est <strong style={{ color: "#ce93d8" }}>votre propre appréciation</strong> de la situation que nous souhaitons. »
-          </p>
-        </div>
-        <p style={{ fontSize: 13, color: "#a09888", margin: 0, lineHeight: 1.6 }}>
-          Ne répondez pas en réfléchissant à la réponse que l'on attend ! Votre ressenti compte plus que la "bonne" réponse.
-        </p>
-      </div>
-    ),
-    visual: (
-      <div style={{ display: "flex", justifyContent: "center", gap: 24, padding: "12px 0" }}>
-        {[
-          { label: "Pas bien ✗", bg: "rgba(255,82,82,0.1)", border: "rgba(255,82,82,0.3)", color: "#ff8a80", cross: true },
-          { label: "Votre avis ✓", bg: "rgba(206,147,216,0.12)", border: "rgba(206,147,216,0.4)", color: "#ce93d8", cross: false },
-        ].map((b, i) => (
-          <div key={i} style={{ flex: 1, maxWidth: 140, padding: "12px 10px", background: b.bg, border: `2px solid ${b.border}`, borderRadius: 12, textAlign: "center" }}>
-            {b.cross
-              ? <div style={{ fontSize: 28, marginBottom: 6 }}>🚫</div>
-              : <div style={{ fontSize: 28, marginBottom: 6 }}>💡</div>
-            }
-            <p style={{ margin: 0, fontSize: 12, fontWeight: "bold", color: b.color }}>{b.label}</p>
-            <p style={{ margin: "4px 0 0", fontSize: 10, color: "#a09888" }}>
-              {b.cross ? "La "bonne" réponse attendue" : "Ce que vous ressentez vraiment"}
-            </p>
-          </div>
-        ))}
-      </div>
-    ),
+    quote: "L'éthique n'est pas la morale : il n'y a pas forcément de meilleur choix. C'est votre propre appréciation de la situation que nous souhaitons.",
+    text: "Ne répondez pas en réfléchissant à la réponse attendue ! Votre ressenti compte plus que la bonne réponse.",
+    visual: "ethics",
   },
   {
     emoji: "🃏",
     title: "Face à des situations concrètes",
     color: "#4fc3f7",
-    content: (
-      <div>
-        <p style={{ fontSize: 14, lineHeight: 1.7, color: "#e8e0d0", margin: "0 0 12px" }}>
-          Vous ferez face à <strong style={{ color: "#4fc3f7" }}>39 situations</strong> d'utilisation de l'IA. Pour chacune, <strong style={{ color: "#4fc3f7" }}>deux réponses possibles</strong> seulement — vous devrez en choisir une seule.
-        </p>
-        <p style={{ fontSize: 13, color: "#a09888", margin: 0, lineHeight: 1.6 }}>
-          Pas de bonne ou mauvaise réponse. Juste votre point de vue du moment.
-        </p>
-      </div>
-    ),
-    visual: (
-      <div style={{ display: "flex", justifyContent: "center", gap: 10, padding: "12px 0" }}>
-        {["Oui, l'IA peut m'aider...", "Non, je préfère..."].map((txt, i) => (
-          <div key={i} style={{
-            flex: 1, maxWidth: 150, padding: "10px 12px", borderRadius: 12,
-            border: `2px solid ${i === 0 ? "rgba(79,195,247,0.5)" : "rgba(206,147,216,0.5)"}`,
-            background: i === 0 ? "rgba(79,195,247,0.08)" : "rgba(206,147,216,0.08)",
-          }}>
-            <div style={{ fontSize: 9, fontWeight: "bold", color: i === 0 ? "#4fc3f7" : "#ce93d8", marginBottom: 4 }}>
-              OPTION {i + 1}
-            </div>
-            <div style={{ fontSize: 11, color: "#c0b8a8", lineHeight: 1.4 }}>{txt}</div>
-          </div>
-        ))}
-      </div>
-    ),
+    text: "Vous ferez face à 39 situations d'utilisation de l'IA. Pour chacune, deux réponses possibles seulement — vous devrez en choisir une seule.",
+    sub: "Pas de bonne ou mauvaise réponse. Juste votre point de vue du moment.",
+    visual: "cards",
   },
   {
     emoji: "🗺️",
     title: "Deux façons de voter",
     color: "#69f0ae",
-    content: (
-      <div>
-        <p style={{ fontSize: 14, lineHeight: 1.7, color: "#e8e0d0", margin: "0 0 14px" }}>
-          Vous pouvez entrer vos choix de deux façons — c'est la même chose, choisissez celle qui vous convient !
-        </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {[
-            { icon: "🃏", tab: "Cartes", desc: "Une grille de 39 cartes numérotées — cliquez sur un numéro pour ouvrir la question en popup." },
-            { icon: "📋", tab: "Liste", desc: "Toutes les questions déroulées, avec la situation et les deux options directement visibles." },
-          ].map((item, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 14px", background: "rgba(105,240,174,0.06)", border: "1px solid rgba(105,240,174,0.2)", borderRadius: 10 }}>
-              <span style={{ fontSize: 22, flexShrink: 0 }}>{item.icon}</span>
-              <div>
-                <p style={{ margin: "0 0 2px", fontSize: 13, fontWeight: "bold", color: "#69f0ae" }}>Onglet {item.tab}</p>
-                <p style={{ margin: 0, fontSize: 12, color: "#a09888", lineHeight: 1.4 }}>{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-    visual: null,
+    text: "Vous pouvez entrer vos choix de deux façons — c'est la même chose, choisissez celle qui vous convient !",
+    items: [
+      { icon: "🃏", tab: "Cartes", desc: "Une grille de 39 cartes numérotées — cliquez sur un numéro pour ouvrir la question." },
+      { icon: "📋", tab: "Liste", desc: "Toutes les questions déroulées, avec la situation et les deux options visibles." },
+    ],
+    visual: "nav",
   },
   {
     emoji: "🏅",
     title: "Gagnez des icônes mystères",
     color: "#ffd764",
-    content: (
-      <div>
-        <p style={{ fontSize: 14, lineHeight: 1.7, color: "#e8e0d0", margin: "0 0 12px" }}>
-          À chaque vote, vous gagnez de curieuses icônes sans savoir ce qu'elles signifient. À la fin, consultez l'onglet <strong style={{ color: "#ffd764" }}>🏅 Bilan</strong> pour :
-        </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          {[
-            "Découvrir la signification de chaque icône obtenue",
-            "Voir combien de fois vous l'avez gagnée (score x/y)",
-            "Comprendre les grands enjeux éthiques associés (cartes A à H)",
-          ].map((txt, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 12, color: "#c0b8a8" }}>
-              <span style={{ color: "#ffd764", flexShrink: 0 }}>→</span>
-              <span>{txt}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-    visual: (
-      <div style={{ display: "flex", justifyContent: "center", gap: 12, padding: "14px 0 4px" }}>
-        {["img_bonpublic.png","img_Integrite.png","img_Frugalite.png","img_USERascendant.png"].map((img, i) => (
-          <div key={i} style={{ position: "relative" }}>
-            <img src={ICON_DATA[img]} alt="" style={{ width: 44, height: 44, objectFit: "contain", filter: i < 2 ? "none" : "grayscale(100%) opacity(0.25)" }} />
-            {i < 2 && (
-              <div style={{ position: "absolute", top: -4, right: -8, background: "#ffd764", color: "#0f0c29", borderRadius: 8, padding: "1px 5px", fontSize: 9, fontWeight: 900 }}>
-                {i === 0 ? "3/7" : "2/9"}
-              </div>
-            )}
-            {i >= 2 && (
-              <div style={{ position: "absolute", top: -4, right: -8, background: "rgba(255,255,255,0.1)", color: "#665e52", borderRadius: 8, padding: "1px 5px", fontSize: 9, fontWeight: 900 }}>
-                ?
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    ),
+    text: "À chaque vote, vous gagnez de curieuses icônes sans savoir ce qu'elles signifient. À la fin, consultez l'onglet Bilan pour :",
+    items: [
+      { icon: "→", tab: "", desc: "Découvrir la signification de chaque icône obtenue" },
+      { icon: "→", tab: "", desc: "Voir combien de fois vous l'avez gagnée (score x/y)" },
+      { icon: "→", tab: "", desc: "Comprendre les grands enjeux éthiques associés (cartes A à H)" },
+    ],
+    visual: "icons",
   },
   {
     emoji: "📊",
     title: "Comparez avec les autres !",
     color: "#ce93d8",
-    content: (
-      <div>
-        <p style={{ fontSize: 14, lineHeight: 1.7, color: "#e8e0d0", margin: "0 0 12px" }}>
-          L'onglet <strong style={{ color: "#ce93d8" }}>📊 Récapitulatif</strong> vous permet de comparer vos choix avec <strong style={{ color: "#ce93d8" }}>l'ensemble des participants</strong> qui ont répondu avant vous.
-        </p>
-        <div style={{ background: "rgba(206,147,216,0.08)", border: "1px solid rgba(206,147,216,0.2)", borderRadius: 10, padding: "10px 14px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-            <span style={{ fontSize: 11, color: "#4fc3f7", fontWeight: "bold" }}>43%</span>
-            <div style={{ flex: 1, height: 6, background: "rgba(255,255,255,0.08)", borderRadius: 3, overflow: "hidden" }}>
-              <div style={{ width: "43%", height: "100%", background: "#4fc3f7", display: "inline-block" }} />
-              <div style={{ width: "57%", height: "100%", background: "#ce93d8", display: "inline-block" }} />
-            </div>
-            <span style={{ fontSize: 11, color: "#ce93d8", fontWeight: "bold" }}>57%</span>
-          </div>
-          <p style={{ margin: 0, fontSize: 11, color: "#665e52", fontStyle: "italic" }}>Exemple : répartition d'un vote après plusieurs participants</p>
-        </div>
-        <p style={{ fontSize: 12, color: "#a09888", margin: "10px 0 0", lineHeight: 1.5 }}>
-          Les résultats n'apparaissent qu'après votre propre vote sur chaque question.
-        </p>
-      </div>
-    ),
-    visual: null,
+    text: "L'onglet Récapitulatif vous permet de comparer vos choix avec l'ensemble des participants qui ont répondu avant vous.",
+    sub: "Les résultats n'apparaissent qu'après votre propre vote sur chaque question.",
+    visual: "compare",
   },
 ];
 
@@ -432,68 +300,129 @@ function TutorialModal({ onClose }) {
   const total = TUTORIAL_STEPS.length;
   const s = TUTORIAL_STEPS[step];
 
+  const renderVisual = () => {
+    if (s.visual === "welcome") return (
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, padding: "16px 0" }}>
+        <div style={{ fontSize: 48 }}>🤖</div>
+        <div style={{ fontSize: 32, color: "#ffd764" }}>⚖️</div>
+        <div style={{ fontSize: 48 }}>🧠</div>
+      </div>
+    );
+    if (s.visual === "ethics") return (
+      <div style={{ display: "flex", justifyContent: "center", gap: 16, padding: "12px 0" }}>
+        {[
+          { label: "La réponse attendue", icon: "🚫", bg: "rgba(255,82,82,0.1)", border: "rgba(255,82,82,0.3)", color: "#ff8a80" },
+          { label: "Ce que vous ressentez", icon: "💡", bg: "rgba(206,147,216,0.12)", border: "rgba(206,147,216,0.4)", color: "#ce93d8" },
+        ].map((b, i) => (
+          <div key={i} style={{ flex: 1, maxWidth: 140, padding: "12px 10px", background: b.bg, border: "2px solid " + b.border, borderRadius: 12, textAlign: "center" }}>
+            <div style={{ fontSize: 28, marginBottom: 6 }}>{b.icon}</div>
+            <p style={{ margin: 0, fontSize: 12, fontWeight: "bold", color: b.color }}>{b.label}</p>
+          </div>
+        ))}
+      </div>
+    );
+    if (s.visual === "cards") return (
+      <div style={{ display: "flex", justifyContent: "center", gap: 10, padding: "12px 0" }}>
+        {["Oui, l'IA peut m'aider...", "Non, je préfère..."].map((txt, i) => (
+          <div key={i} style={{ flex: 1, maxWidth: 150, padding: "10px 12px", borderRadius: 12, border: "2px solid " + (i === 0 ? "rgba(79,195,247,0.5)" : "rgba(206,147,216,0.5)"), background: i === 0 ? "rgba(79,195,247,0.08)" : "rgba(206,147,216,0.08)" }}>
+            <div style={{ fontSize: 9, fontWeight: "bold", color: i === 0 ? "#4fc3f7" : "#ce93d8", marginBottom: 4 }}>OPTION {i + 1}</div>
+            <div style={{ fontSize: 11, color: "#c0b8a8", lineHeight: 1.4 }}>{txt}</div>
+          </div>
+        ))}
+      </div>
+    );
+    if (s.visual === "icons") return (
+      <div style={{ display: "flex", justifyContent: "center", gap: 12, padding: "14px 0 4px" }}>
+        {["img_bonpublic.png","img_Integrite.png","img_Frugalite.png","img_USERascendant.png"].map((img, i) => (
+          <div key={i} style={{ position: "relative" }}>
+            <img src={ICON_DATA[img]} alt="" style={{ width: 44, height: 44, objectFit: "contain", filter: i < 2 ? "none" : "grayscale(100%) opacity(0.25)" }} />
+            <div style={{ position: "absolute", top: -4, right: -8, background: i < 2 ? "#ffd764" : "rgba(255,255,255,0.1)", color: i < 2 ? "#0f0c29" : "#665e52", borderRadius: 8, padding: "1px 5px", fontSize: 9, fontWeight: 900 }}>
+              {i < 2 ? (i === 0 ? "3/7" : "2/9") : "?"}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+    if (s.visual === "compare") return (
+      <div style={{ background: "rgba(206,147,216,0.08)", border: "1px solid rgba(206,147,216,0.2)", borderRadius: 10, padding: "12px 14px", margin: "12px 0" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+          <span style={{ fontSize: 11, color: "#4fc3f7", fontWeight: "bold" }}>43%</span>
+          <div style={{ flex: 1, height: 6, background: "rgba(255,255,255,0.08)", borderRadius: 3, overflow: "hidden" }}>
+            <div style={{ width: "43%", height: "100%", background: "#4fc3f7", display: "inline-block" }} />
+            <div style={{ width: "57%", height: "100%", background: "#ce93d8", display: "inline-block" }} />
+          </div>
+          <span style={{ fontSize: 11, color: "#ce93d8", fontWeight: "bold" }}>57%</span>
+        </div>
+        <p style={{ margin: 0, fontSize: 11, color: "#665e52", fontStyle: "italic" }}>Exemple de répartition après plusieurs participants</p>
+      </div>
+    );
+    return null;
+  };
+
   return (
-    <div style={{
-      position: "fixed", inset: 0, background: "rgba(0,0,0,0.82)",
-      display: "flex", alignItems: "center", justifyContent: "center",
-      zIndex: 200, padding: 16, backdropFilter: "blur(6px)"
-    }}>
-      <div style={{
-        maxWidth: 480, width: "100%",
-        background: "linear-gradient(135deg, #1a1735, #2a2550)",
-        border: `2px solid ${s.color}44`,
-        borderRadius: 20, overflow: "hidden",
-        boxShadow: `0 0 60px ${s.color}22`,
-        animation: "fadeSlide 0.3s ease",
-      }}>
-        <style>{`@keyframes fadeSlide { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }`}</style>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.82)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 200, padding: 16, backdropFilter: "blur(6px)" }}>
+      <div style={{ maxWidth: 480, width: "100%", background: "linear-gradient(135deg, #1a1735, #2a2550)", border: "2px solid " + s.color + "44", borderRadius: 20, overflow: "hidden", boxShadow: "0 0 60px " + s.color + "22" }}>
 
         {/* Progress bar */}
         <div style={{ height: 4, background: "rgba(255,255,255,0.06)" }}>
-          <div style={{ height: "100%", width: `${((step+1)/total)*100}%`, background: s.color, transition: "width 0.4s ease" }} />
+          <div style={{ height: "100%", width: ((step+1)/total*100) + "%", background: s.color, transition: "width 0.4s ease" }} />
         </div>
 
         {/* Header */}
         <div style={{ padding: "20px 24px 0", display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 42, height: 42, borderRadius: "50%", background: `${s.color}22`, border: `2px solid ${s.color}44`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>
+          <div style={{ width: 42, height: 42, borderRadius: "50%", background: s.color + "22", border: "2px solid " + s.color + "44", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>
             {s.emoji}
           </div>
           <div>
             <p style={{ margin: 0, fontSize: 10, color: "#665e52" }}>{step+1} / {total}</p>
-            <h2 style={{ margin: 0, fontFamily: "'Playfair Display', serif", fontSize: 17, fontWeight: 900, color: s.color }}>{s.title}</h2>
+            <h2 style={{ margin: 0, fontFamily: "serif", fontSize: 17, fontWeight: 900, color: s.color }}>{s.title}</h2>
           </div>
-          <button onClick={onClose} style={{ marginLeft: "auto", background: "none", border: "none", color: "#665e52", fontSize: 20, cursor: "pointer", flexShrink: 0, lineHeight: 1 }}>✕</button>
+          <button onClick={onClose} style={{ marginLeft: "auto", background: "none", border: "none", color: "#665e52", fontSize: 20, cursor: "pointer", flexShrink: 0 }}>✕</button>
         </div>
 
-        {/* Visual */}
-        {s.visual && <div style={{ padding: "0 24px" }}>{s.visual}</div>}
-
         {/* Content */}
-        <div style={{ padding: s.visual ? "0 24px 20px" : "16px 24px 20px" }}>
-          {s.content}
+        <div style={{ padding: "16px 24px 4px" }}>
+          {s.quote && (
+            <div style={{ background: "rgba(206,147,216,0.12)", border: "2px solid rgba(206,147,216,0.3)", borderRadius: 12, padding: "12px 14px", marginBottom: 12 }}>
+              <p style={{ fontSize: 13, fontStyle: "italic", color: "#e8e0d0", margin: 0, lineHeight: 1.6 }}>
+                {s.quote}
+              </p>
+            </div>
+          )}
+          {renderVisual()}
+          <p style={{ fontSize: 13, lineHeight: 1.7, color: "#e8e0d0", margin: "8px 0" }}>{s.text}</p>
+          {s.sub && <p style={{ fontSize: 12, color: "#a09888", margin: "4px 0 0", lineHeight: 1.5 }}>{s.sub}</p>}
+          {s.items && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 7, marginTop: 8 }}>
+              {s.items.map((item, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "8px 12px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 9 }}>
+                  <span style={{ fontSize: 18, flexShrink: 0 }}>{item.icon}</span>
+                  <div>
+                    {item.tab && <p style={{ margin: "0 0 2px", fontSize: 12, fontWeight: "bold", color: s.color }}>Onglet {item.tab}</p>}
+                    <p style={{ margin: 0, fontSize: 11, color: "#a09888", lineHeight: 1.4 }}>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Footer */}
-        <div style={{ padding: "12px 24px 20px", display: "flex", gap: 10, alignItems: "center", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          {/* Step dots */}
+        <div style={{ padding: "12px 24px 20px", display: "flex", gap: 10, alignItems: "center", borderTop: "1px solid rgba(255,255,255,0.06)", marginTop: 8 }}>
           <div style={{ display: "flex", gap: 5, flex: 1 }}>
             {TUTORIAL_STEPS.map((_, i) => (
-              <div key={i} onClick={() => setStep(i)} style={{
-                width: i === step ? 18 : 6, height: 6, borderRadius: 3,
-                background: i === step ? s.color : i < step ? `${s.color}66` : "rgba(255,255,255,0.12)",
-                cursor: "pointer", transition: "all 0.3s",
-              }} />
+              <div key={i} onClick={() => setStep(i)} style={{ width: i === step ? 18 : 6, height: 6, borderRadius: 3, background: i === step ? s.color : i < step ? s.color + "66" : "rgba(255,255,255,0.12)", cursor: "pointer", transition: "all 0.3s" }} />
             ))}
           </div>
-          <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "transparent", color: "#665e52", fontSize: 12, cursor: "pointer", fontFamily: "'Source Serif 4', serif" }}>
+          <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "transparent", color: "#665e52", fontSize: 12, cursor: "pointer" }}>
             Passer
           </button>
           {step < total - 1 ? (
-            <button onClick={() => setStep(s => s+1)} style={{ padding: "7px 20px", borderRadius: 8, border: "none", background: s.color, color: "#0f0c29", fontSize: 13, fontWeight: "bold", cursor: "pointer", fontFamily: "'Source Serif 4', serif" }}>
+            <button onClick={() => setStep(s => s+1)} style={{ padding: "7px 20px", borderRadius: 8, border: "none", background: s.color, color: "#0f0c29", fontSize: 13, fontWeight: "bold", cursor: "pointer" }}>
               Suivant →
             </button>
           ) : (
-            <button onClick={onClose} style={{ padding: "7px 20px", borderRadius: 8, border: "none", background: s.color, color: "#0f0c29", fontSize: 13, fontWeight: "bold", cursor: "pointer", fontFamily: "'Source Serif 4', serif" }}>
+            <button onClick={onClose} style={{ padding: "7px 20px", borderRadius: 8, border: "none", background: s.color, color: "#0f0c29", fontSize: 13, fontWeight: "bold", cursor: "pointer" }}>
               C'est parti ! 🚀
             </button>
           )}
