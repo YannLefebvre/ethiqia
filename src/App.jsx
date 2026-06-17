@@ -289,7 +289,7 @@ const TUTORIAL_STEPS = [
     emoji: "📊",
     title: "Comparez avec les autres !",
     color: "#ce93d8",
-    text: "L'onglet Récapitulatif vous permet de comparer vos choix avec l'ensemble des participants qui ont répondu avant vous.",
+    text: "L'onglet Liste affiche les pourcentages et le nombre de votes pour chaque question, vous permettant de comparer vos choix avec l'ensemble des participants.",
     sub: "Les résultats n'apparaissent qu'après votre propre vote sur chaque question.",
     visual: "compare",
   },
@@ -673,8 +673,6 @@ export default function App() {
           const c = counts[q.id] || emptyCount(); const tot = c.A + c.B;
           const pctA = tot > 0 ? Math.round((c.A / tot) * 100) : null;
           const uv = voted[q.id]; const alreadyVoted = !isAdmin && !!uv;
-          const iconsA = getIcons(q.id, "A");
-          const iconsB = getIcons(q.id, "B");
           return (
             <div key={q.id} className="list-card">
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
@@ -690,9 +688,9 @@ export default function App() {
                   <button className={`btn-vote opt-a${uv === "A" ? " already-a" : ""}`} disabled={alreadyVoted && uv !== "A"} onClick={() => handleChoice(q.id, "A")}>
                     <span style={{ fontSize: 9, fontWeight: "bold", color: "#4fc3f7", display: "block", marginBottom: 2 }}>OPTION 1{uv === "A" ? " ✓" : ""}</span>{q.altA}
                   </button>
-                  {uv === "A" && iconsA.length > 0 && (
+                  {uv === "A" && getIcons(q.id, "A").length > 0 && (
                     <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-                      {iconsA.map((src, i) => (
+                      {getIcons(q.id, "A").map((src, i) => (
                         <img key={i} src={src} alt="" style={{ width: 38, height: 38, objectFit: "contain", borderRadius: 6, background: "rgba(79,195,247,0.1)", padding: 3 }} />
                       ))}
                     </div>
@@ -703,17 +701,15 @@ export default function App() {
                   <button className={`btn-vote opt-b${uv === "B" ? " already-b" : ""}`} disabled={alreadyVoted && uv !== "B"} onClick={() => handleChoice(q.id, "B")}>
                     <span style={{ fontSize: 9, fontWeight: "bold", color: "#ce93d8", display: "block", marginBottom: 2 }}>OPTION 2{uv === "B" ? " ✓" : ""}</span>{q.altB}
                   </button>
-                  {uv === "B" && iconsB.length > 0 && (
+                  {uv === "B" && getIcons(q.id, "B").length > 0 && (
                     <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-                      {iconsB.map((src, i) => (
+                      {getIcons(q.id, "B").map((src, i) => (
                         <img key={i} src={src} alt="" style={{ width: 38, height: 38, objectFit: "contain", borderRadius: 6, background: "rgba(206,147,216,0.1)", padding: 3 }} />
                       ))}
                     </div>
                   )}
                   {isAdmin && <button className={`count-badge ${c.B > 0 ? "count-b" : "count-zero"}`} onClick={() => decrement(q.id, "B")}>{c.B}</button>}
                 </div>
-
-                {/* Statistiques — pourcentages et occurrences */}
                 <div style={{ marginTop: 4, padding: "8px 12px", background: "rgba(255,255,255,0.04)", borderRadius: 10, border: "1px solid rgba(255,255,255,0.08)" }}>
                   {tot > 0 && pctA !== null ? (
                     <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
@@ -734,7 +730,6 @@ export default function App() {
                     </p>
                   )}
                 </div>
-
               </div>
             </div>
           );
