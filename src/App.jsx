@@ -289,7 +289,7 @@ const TUTORIAL_STEPS = [
     emoji: "📊",
     title: "Comparez avec les autres !",
     color: "#ce93d8",
-    text: "L'onglet Liste affiche les pourcentages et le nombre de votes pour chaque question, vous permettant de comparer vos choix avec l'ensemble des participants.",
+    text: "L'onglet Liste vous permet de comparer vos choix avec l'ensemble des participants grâce aux pourcentages et occurrences affichés directement.",
     sub: "Les résultats n'apparaissent qu'après votre propre vote sur chaque question.",
     visual: "compare",
   },
@@ -734,6 +734,101 @@ export default function App() {
             </div>
           );
         })}
+
+        {/* SUMMARY */}
+        {status !== "loading" && view === "summary_disabled" && questions.map(q => {
+          const c = counts[q.id] || emptyCount(); const tot = c.A + c.B;
+          const pctA = tot > 0 ? Math.round((c.A / tot) * 100) : null;
+          const uv = voted[q.id];
+          const alreadyVoted = !isAdmin && !!uv;
+          const iconsA = getIcons(q.id, "A");
+          const iconsB = getIcons(q.id, "B");
+          return (
+            <div key={q.id} className="list-card">
+              {/* Header: numéro + titre + situation */}
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+                <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(255,255,255,0.07)", color: "#a09888", fontSize: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>{q.id}</div>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ margin: "0 0 3px", fontFamily: "'Playfair Display', serif", fontSize: 14, fontWeight: 700, color: "#f5efe0" }}>{q.titre}</h3>
+                  <p style={{ margin: 0, fontSize: 11.5, color: "#a09888", fontStyle: "italic", lineHeight: 1.45 }}>{q.situation}</p>
+                </div>
+                {tot > 0 && <span style={{ fontSize: 10, color: "#665e52", whiteSpace: "nowrap" }}>{tot}v</span>}
+              </div>
+
+              {/* Options */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+
+                {/* Option A */}
+                <div className="vote-row">
+                  <button className={`btn-vote opt-a${uv === "A" ? " already-a" : ""}`}
+                    disabled={alreadyVoted && uv !== "A"}
+                    onClick={() => handleChoice(q.id, "A")}>
+                    <span style={{ fontSize: 9, fontWeight: "bold", color: "#4fc3f7", display: "block", marginBottom: 2 }}>
+                      OPTION 1{uv === "A" ? " ✓" : ""}
+                    </span>
+                    {q.altA}
+                  </button>
+                  {uv === "A" && iconsA.length > 0 && (
+                    <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+                      {iconsA.map((src, i) => (
+                        <img key={i} src={src} alt="" style={{ width: 38, height: 38, objectFit: "contain", borderRadius: 6, background: "rgba(79,195,247,0.1)", padding: 3 }} />
+                      ))}
+                    </div>
+                  )}
+                  {isAdmin && <button className={`count-badge ${c.A > 0 ? "count-a" : "count-zero"}`} onClick={() => decrement(q.id, "A")}>{c.A}</button>}
+                </div>
+
+                {/* Option B */}
+                <div className="vote-row">
+                  <button className={`btn-vote opt-b${uv === "B" ? " already-b" : ""}`}
+                    disabled={alreadyVoted && uv !== "B"}
+                    onClick={() => handleChoice(q.id, "B")}>
+                    <span style={{ fontSize: 9, fontWeight: "bold", color: "#ce93d8", display: "block", marginBottom: 2 }}>
+                      OPTION 2{uv === "B" ? " ✓" : ""}
+                    </span>
+                    {q.altB}
+                  </button>
+                  {uv === "B" && iconsB.length > 0 && (
+                    <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+                      {iconsB.map((src, i) => (
+                        <img key={i} src={src} alt="" style={{ width: 38, height: 38, objectFit: "contain", borderRadius: 6, background: "rgba(206,147,216,0.1)", padding: 3 }} />
+                      ))}
+                    </div>
+                  )}
+                  {isAdmin && <button className={`count-badge ${c.B > 0 ? "count-b" : "count-zero"}`} onClick={() => decrement(q.id, "B")}>{c.B}</button>}
+                </div>
+
+                {/* Feedback votes — visible uniquement après avoir voté */}
+                {uv && tot > 0 && pctA !== null && (
+                  <div style={{ marginTop: 4, padding: "8px 12px", background: "rgba(255,255,255,0.04)", borderRadius: 10, border: "1px solid rgba(255,255,255,0.08)" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 12, color: "#4fc3f7", fontWeight: "bold" }}>{pctA}%</span>
+                      <span style={{ fontSize: 11, color: "#665e52" }}>Opt.1</span>
+                      <span style={{ fontSize: 11, color: "#554e46" }}>·</span>
+                      <span style={{ fontSize: 12, color: "#ce93d8", fontWeight: "bold" }}>{100 - pctA}%</span>
+                      <span style={{ fontSize: 11, color: "#665e52" }}>Opt.2</span>
+                      <span style={{ fontSize: 11, color: "#443d36", marginLeft: 4 }}>({tot} vote{tot > 1 ? "s" : ""})</span>
+                      <div style={{ flex: 1, minWidth: 80, height: 4, background: "rgba(255,255,255,0.08)", borderRadius: 2, overflow: "hidden" }}>
+                        <div style={{ width: `${pctA}%`, height: "100%", background: "#4fc3f7", display: "inline-block" }} />
+                        <div style={{ width: `${100 - pctA}%`, height: "100%", background: "#ce93d8", display: "inline-block" }} />
+                      </div>
+                    </div>
+                    {!uv && <p style={{ margin: "6px 0 0", fontSize: 10, color: "#443d36", fontStyle: "italic" }}>Votez pour voir la répartition.</p>}
+                  </div>
+                )}
+
+                {/* Invitation à voter si pas encore fait */}
+                {!uv && (
+                  <p style={{ margin: "2px 0 0", fontSize: 10, color: "#443d36", fontStyle: "italic", textAlign: "center" }}>
+                    Votez pour voir les résultats et les icônes.
+                  </p>
+                )}
+
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
         {/* BILAN */}
         {status !== "loading" && view === "bilan" && (() => {
