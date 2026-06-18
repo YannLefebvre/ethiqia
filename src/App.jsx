@@ -1,4 +1,8 @@
-im
+import React, { useState, useEffect, useCallback } from "react";
+import * as XLSX from "xlsx";
+import { ICON_DATA, BILAN_ICON_DATA } from "./iconData";
+import { ICON_KEYS, ICON_MAX, BILAN_CARDS } from "./gameData";
+import { CARDS_AH } from "./cardsAH";
 
 const PARCOURS = [
   { id: "algo",      label: "Expliquer les algorithmes",     color: "#f59e0b", cards: [1,2,3,31,32,37] },
@@ -9,11 +13,7 @@ const PARCOURS = [
   { id: "compet",    label: "Compétences intermédiaires",    color: "#ec4899", cards: [21,22,24,27,35] },
   { id: "societal",  label: "Évolution sociétale",           color: "#f97316", cards: [26,29,36] },
 ];
-port React, { useState, useEffect, useCallback } from "react";
-import * as XLSX from "xlsx";
-import { ICON_DATA, BILAN_ICON_DATA } from "./iconData";
-import { ICON_KEYS, ICON_MAX, BILAN_CARDS } from "./gameData";
-import { CARDS_AH } from "./cardsAH";
+
 
 
 
@@ -719,15 +719,13 @@ export default function App() {
                 const c = counts[q.id] || emptyCount();
                 const tot = c.A + c.B;
                 const uv = voted[q.id];
+                const parcours = selectedParcours ? PARCOURS.find(p => p.id === selectedParcours) : null;
+                const inParcours = parcours && parcours.cards.includes(q.id);
+                const pColor = inParcours ? parcours.color : null;
                 return (
-                  {(() => {
-                    const parcours = selectedParcours ? PARCOURS.find(p => p.id === selectedParcours) : null;
-                    const inParcours = parcours && parcours.cards.includes(q.id);
-                    const pColor = inParcours ? parcours.color : null;
-                    return (
                   <button key={q.id} className={`num-card${uv === "A" ? " voted-a" : uv === "B" ? " voted-b" : ""}`} onClick={() => setActiveCard(q.id)} title={q.titre}
                     style={{ height: uv ? "auto" : undefined, minHeight: 58, padding: uv ? "6px 4px" : undefined,
-                      borderColor: pColor ? pColor : undefined,
+                      borderColor: pColor || undefined,
                       background: pColor ? pColor + "22" : undefined,
                       boxShadow: pColor ? "0 0 8px " + pColor + "55" : undefined,
                     }}>
@@ -741,8 +739,6 @@ export default function App() {
                     )}
                     {tot > 0 && <span style={{ fontSize: 7, color: "#a09888" }}>{tot}v</span>}
                   </button>
-                    );
-                  })()} 
                 );
               })}
             </div>
