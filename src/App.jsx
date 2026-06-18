@@ -1,4 +1,15 @@
-import React, { useState, useEffect, useCallback } from "react";
+im
+
+const PARCOURS = [
+  { id: "algo",      label: "Expliquer les algorithmes",     color: "#f59e0b", cards: [1,2,3,31,32,37] },
+  { id: "roles",     label: "Les rôles de l'IA",             color: "#10b981", cards: [4,5,7,8,12] },
+  { id: "restreind", label: "Restreindre l'usage ?",         color: "#ef4444", cards: [9,10,11,25,28] },
+  { id: "savoir",    label: "Construire un savoir académique",color: "#8b5cf6", cards: [13,14,15,16,18,20,23,24,33] },
+  { id: "inclure",   label: "Inclure, différencier",         color: "#06b6d4", cards: [19,20,21,30] },
+  { id: "compet",    label: "Compétences intermédiaires",    color: "#ec4899", cards: [21,22,24,27,35] },
+  { id: "societal",  label: "Évolution sociétale",           color: "#f97316", cards: [26,29,36] },
+];
+port React, { useState, useEffect, useCallback } from "react";
 import * as XLSX from "xlsx";
 import { ICON_DATA, BILAN_ICON_DATA } from "./iconData";
 import { ICON_KEYS, ICON_MAX, BILAN_CARDS } from "./gameData";
@@ -289,7 +300,7 @@ const TUTORIAL_STEPS = [
     emoji: "📊",
     title: "Comparez avec les autres !",
     color: "#ce93d8",
-    text: "L'onglet Liste vous permet de comparer vos choix avec l'ensemble des participants grâce aux pourcentages et occurrences affichés directement.",
+    text: "L'onglet Récapitulatif vous permet de comparer vos choix avec l'ensemble des participants qui ont répondu avant vous.",
     sub: "Les résultats n'apparaissent qu'après votre propre vote sur chaque question.",
     visual: "compare",
   },
@@ -444,6 +455,7 @@ export default function App() {
   const [loginError, setLoginError] = useState("");
   const [activeCard, setActiveCard] = useState(null);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [selectedParcours, setSelectedParcours] = useState(null);
   const [showTutorial, setShowTutorial] = useState(() => {
     try { return !sessionStorage.getItem("ethiqia_tutorial_seen"); } catch { return true; }
   });
@@ -612,8 +624,10 @@ export default function App() {
 
         {/* Nav */}
         <div style={{ display: "flex", gap: 6, marginBottom: 18, flexWrap: "wrap", alignItems: "center" }}>
+          <button className={`tab ${view === "parcours" ? "active" : ""}`} onClick={() => setView("parcours")}>🗺️ Parcours</button>
           <button className={`tab ${view === "cards" ? "active" : ""}`} onClick={() => setView("cards")}>🃏 Cartes</button>
           <button className={`tab ${view === "list" ? "active" : ""}`} onClick={() => setView("list")}>📋 Liste</button>
+          <button className={`tab ${view === "summary" ? "active" : ""}`} onClick={() => setView("summary")}>📊 Récapitulatif</button>
           <button className={`tab ${view === "bilan" ? "active" : ""}`} onClick={() => setView("bilan")}>🏅 Bilan</button>
           <div style={{ marginLeft: "auto", display: "flex", gap: 6, flexWrap: "wrap" }}>
             <button className="btn-action" onClick={load} title="Actualiser">↺</button>
@@ -638,6 +652,65 @@ export default function App() {
           </div>
         )}
 
+
+        {/* PARCOURS */}
+        {status !== "loading" && view === "parcours" && (
+          <div>
+            <p style={{ fontSize: 13, color: "#a09888", marginBottom: 18, fontStyle: "italic" }}>
+              Sélectionnez un parcours pour mettre en surbrillance les cartes correspondantes dans la vue Cartes.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {PARCOURS.map(p => {
+                const isSelected = selectedParcours === p.id;
+                const votedInParcours = p.cards.filter(id => voted[id]).length;
+                return (
+                  <div key={p.id} onClick={() => { setSelectedParcours(isSelected ? null : p.id); setView("cards"); }}
+                    style={{
+                      padding: "14px 18px", borderRadius: 14, cursor: "pointer", transition: "all 0.2s",
+                      border: "2px solid " + (isSelected ? p.color : "rgba(255,255,255,0.1)"),
+                      background: isSelected ? p.color + "18" : "rgba(255,255,255,0.04)",
+                      boxShadow: isSelected ? "0 0 16px " + p.color + "44" : "none",
+                    }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      {/* Color dot */}
+                      <div style={{ width: 14, height: 14, borderRadius: "50%", background: p.color, flexShrink: 0, boxShadow: "0 0 8px " + p.color }} />
+                      {/* Label */}
+                      <div style={{ flex: 1 }}>
+                        <p style={{ margin: 0, fontSize: 14, fontWeight: "bold", color: isSelected ? p.color : "#f5efe0", fontFamily: "'Playfair Display', serif" }}>{p.label}</p>
+                        <p style={{ margin: "3px 0 0", fontSize: 11, color: "#665e52" }}>
+                          {p.cards.length} cartes · {votedInParcours} votée{votedInParcours > 1 ? "s" : ""}
+                        </p>
+                      </div>
+                      {/* Card numbers */}
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 4, justifyContent: "flex-end", maxWidth: 160 }}>
+                        {p.cards.map(id => (
+                          <span key={id} style={{
+                            width: 24, height: 24, borderRadius: 6, fontSize: 10, fontWeight: "bold",
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            background: voted[id] ? p.color + "33" : "rgba(255,255,255,0.06)",
+                            color: voted[id] ? p.color : "#665e52",
+                            border: "1px solid " + (voted[id] ? p.color + "55" : "rgba(255,255,255,0.08)"),
+                          }}>{id}</span>
+                        ))}
+                      </div>
+                      {/* Arrow */}
+                      <span style={{ color: isSelected ? p.color : "#443d36", fontSize: 16, flexShrink: 0 }}>
+                        {isSelected ? "✓" : "→"}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            {selectedParcours && (
+              <button onClick={() => setSelectedParcours(null)}
+                style={{ marginTop: 14, padding: "8px 18px", borderRadius: 10, border: "1px solid rgba(255,255,255,0.15)", background: "transparent", color: "#a09888", fontSize: 12, cursor: "pointer" }}>
+                Effacer la sélection
+              </button>
+            )}
+          </div>
+        )}
+
         {/* CARDS */}
         {status !== "loading" && view === "cards" && (
           <>
@@ -647,8 +720,17 @@ export default function App() {
                 const tot = c.A + c.B;
                 const uv = voted[q.id];
                 return (
+                  {(() => {
+                    const parcours = selectedParcours ? PARCOURS.find(p => p.id === selectedParcours) : null;
+                    const inParcours = parcours && parcours.cards.includes(q.id);
+                    const pColor = inParcours ? parcours.color : null;
+                    return (
                   <button key={q.id} className={`num-card${uv === "A" ? " voted-a" : uv === "B" ? " voted-b" : ""}`} onClick={() => setActiveCard(q.id)} title={q.titre}
-                    style={{ height: uv ? "auto" : undefined, minHeight: 58, padding: uv ? "6px 4px" : undefined }}>
+                    style={{ height: uv ? "auto" : undefined, minHeight: 58, padding: uv ? "6px 4px" : undefined,
+                      borderColor: pColor ? pColor : undefined,
+                      background: pColor ? pColor + "22" : undefined,
+                      boxShadow: pColor ? "0 0 8px " + pColor + "55" : undefined,
+                    }}>
                     <span style={{ fontSize: 17, fontWeight: 900, color: uv === "A" ? "#4fc3f7" : uv === "B" ? "#ce93d8" : "#f5efe0" }}>{q.id}</span>
                     {uv && getIcons(q.id, uv).length > 0 && (
                       <div style={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
@@ -659,6 +741,8 @@ export default function App() {
                     )}
                     {tot > 0 && <span style={{ fontSize: 7, color: "#a09888" }}>{tot}v</span>}
                   </button>
+                    );
+                  })()} 
                 );
               })}
             </div>
@@ -671,7 +755,7 @@ export default function App() {
         {/* LIST */}
         {status !== "loading" && view === "list" && questions.map(q => {
           const c = counts[q.id] || emptyCount(); const tot = c.A + c.B;
-          const pctA = tot > 0 ? Math.round((c.A / tot) * 100) : null;
+          const pctA = tot > 0 ? (c.A / tot) * 100 : 50;
           const uv = voted[q.id]; const alreadyVoted = !isAdmin && !!uv;
           return (
             <div key={q.id} className="list-card">
@@ -681,7 +765,7 @@ export default function App() {
                   <h3 style={{ margin: "0 0 3px", fontFamily: "'Playfair Display', serif", fontSize: 14, fontWeight: 700, color: "#f5efe0" }}>{q.titre}</h3>
                   <p style={{ margin: 0, fontSize: 11.5, color: "#a09888", fontStyle: "italic", lineHeight: 1.45 }}>{q.situation}</p>
                 </div>
-                {tot > 0 && <span style={{ fontSize: 10, color: "#665e52", whiteSpace: "nowrap" }}>{tot}v</span>}
+                {uv && tot > 0 && <span style={{ fontSize: 10, color: "#665e52", whiteSpace: "nowrap" }}>{tot}v</span>}
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                 <div className="vote-row">
@@ -710,33 +794,17 @@ export default function App() {
                   )}
                   {isAdmin && <button className={`count-badge ${c.B > 0 ? "count-b" : "count-zero"}`} onClick={() => decrement(q.id, "B")}>{c.B}</button>}
                 </div>
-                <div style={{ marginTop: 4, padding: "8px 12px", background: "rgba(255,255,255,0.04)", borderRadius: 10, border: "1px solid rgba(255,255,255,0.08)" }}>
-                  {tot > 0 && pctA !== null ? (
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                      <span style={{ fontSize: 12, color: "#4fc3f7", fontWeight: "bold" }}>{pctA}%</span>
-                      <span style={{ fontSize: 11, color: "#665e52" }}>Opt.1</span>
-                      <span style={{ fontSize: 11, color: "#554e46" }}>·</span>
-                      <span style={{ fontSize: 12, color: "#ce93d8", fontWeight: "bold" }}>{100 - pctA}%</span>
-                      <span style={{ fontSize: 11, color: "#665e52" }}>Opt.2</span>
-                      <span style={{ fontSize: 11, color: "#443d36", marginLeft: 4 }}>({tot} vote{tot > 1 ? "s" : ""})</span>
-                      <div style={{ flex: 1, minWidth: 80, height: 4, background: "rgba(255,255,255,0.08)", borderRadius: 2, overflow: "hidden" }}>
-                        <div style={{ width: `${pctA}%`, height: "100%", background: "#4fc3f7", display: "inline-block" }} />
-                        <div style={{ width: `${100 - pctA}%`, height: "100%", background: "#ce93d8", display: "inline-block" }} />
-                      </div>
-                    </div>
-                  ) : (
-                    <p style={{ margin: 0, fontSize: 10, color: "#443d36", fontStyle: "italic", textAlign: "center" }}>
-                      {uv ? "Aucun vote enregistré pour cette carte." : "Votez pour voir les résultats et les icônes."}
-                    </p>
-                  )}
-                </div>
+                {uv && tot > 0 && <div style={{ height: 3, borderRadius: 2, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
+                  <span style={{ width: `${pctA}%`, height: "100%", background: "#4fc3f7", display: "inline-block" }} />
+                  <span style={{ width: `${100 - pctA}%`, height: "100%", background: "#ce93d8", display: "inline-block" }} />
+                </div>}
               </div>
             </div>
           );
         })}
 
         {/* SUMMARY */}
-        {status !== "loading" && view === "summary_disabled" && questions.map(q => {
+        {status !== "loading" && view === "summary" && questions.map(q => {
           const c = counts[q.id] || emptyCount(); const tot = c.A + c.B;
           const pctA = tot > 0 ? Math.round((c.A / tot) * 100) : null;
           const uv = voted[q.id];
@@ -1033,7 +1101,7 @@ export default function App() {
                   <span style={{ fontSize: 9, fontWeight: "bold", color: "#ce93d8", display: "block", marginBottom: 3 }}>OPTION 2{uv === "B" ? " ✓ votre choix" : ""}</span>{activeQ.altB}
                 </button>
               </div>
-              {tot > 0 && <div style={{ marginTop: 12, display: "flex", gap: 7, alignItems: "center" }}>
+              {uv && tot > 0 && <div style={{ marginTop: 12, display: "flex", gap: 7, alignItems: "center" }}>
                 <span style={{ fontSize: 10, color: "#4fc3f7" }}>{c.A}</span>
                 <div style={{ flex: 1, height: 4, background: "rgba(255,255,255,0.08)", borderRadius: 2, overflow: "hidden" }}>
                   <div style={{ width: `${(c.A / tot) * 100}%`, height: "100%", background: "#4fc3f7", display: "inline-block" }} />
