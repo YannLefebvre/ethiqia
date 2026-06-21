@@ -303,9 +303,17 @@ const TUTORIAL_STEPS = [
     emoji: "📊",
     title: "Comparez avec les autres !",
     color: "#ce93d8",
-    text: "L'onglet Récapitulatif vous permet de comparer vos choix avec l'ensemble des participants qui ont répondu avant vous.",
+    text: "Dans l'onglet Liste, les pourcentages et le nombre de votes s'affichent directement sous chaque question, pour comparer votre choix avec l'ensemble des participants.",
     sub: "Les résultats n'apparaissent qu'après votre propre vote sur chaque question.",
     visual: "compare",
+  },
+  {
+    emoji: "🔒",
+    title: "Vos données restent anonymes",
+    color: "#69f0ae",
+    text: "Vos choix et votre profil ne sont utilisés qu'à des fins statistiques, pour calculer les pourcentages de réponses affichés dans l'application.",
+    sub: "Aucune information personnelle n'est collectée ni traitée : pas de nom, pas d'email, rien qui permette de vous identifier.",
+    visual: "privacy",
   },
 ];
 
@@ -368,6 +376,20 @@ function TutorialModal({ onClose }) {
           <span style={{ fontSize: 11, color: "#ce93d8", fontWeight: "bold" }}>57%</span>
         </div>
         <p style={{ margin: 0, fontSize: 11, color: "#665e52", fontStyle: "italic" }}>Exemple de répartition après plusieurs participants</p>
+      </div>
+    );
+    if (s.visual === "privacy") return (
+      <div style={{ display: "flex", justifyContent: "center", gap: 14, padding: "10px 0" }}>
+        {[
+          { icon: "🚫", label: "Pas de nom" },
+          { icon: "🚫", label: "Pas d'email" },
+          { icon: "✅", label: "Choix anonymisés" },
+        ].map((b, i) => (
+          <div key={i} style={{ flex: 1, maxWidth: 110, padding: "10px 8px", background: "rgba(105,240,174,0.07)", border: "1px solid rgba(105,240,174,0.25)", borderRadius: 12, textAlign: "center" }}>
+            <div style={{ fontSize: 22, marginBottom: 4 }}>{b.icon}</div>
+            <p style={{ margin: 0, fontSize: 10.5, fontWeight: "bold", color: "#69f0ae" }}>{b.label}</p>
+          </div>
+        ))}
       </div>
     );
     return null;
@@ -630,7 +652,6 @@ export default function App() {
           <button className={`tab ${view === "parcours" ? "active" : ""}`} onClick={() => setView("parcours")}>🗺️ Parcours</button>
           <button className={`tab ${view === "cards" ? "active" : ""}`} onClick={() => setView("cards")}>🃏 Cartes</button>
           <button className={`tab ${view === "list" ? "active" : ""}`} onClick={() => setView("list")}>📋 Liste</button>
-          <button className={`tab ${view === "summary" ? "active" : ""}`} onClick={() => setView("summary")}>📊 Récapitulatif</button>
           <button className={`tab ${view === "bilan" ? "active" : ""}`} onClick={() => setView("bilan")}>🏅 Bilan</button>
           <div style={{ marginLeft: "auto", display: "flex", gap: 6, flexWrap: "wrap" }}>
             <button className="btn-action" onClick={load} title="Actualiser">↺</button>
@@ -754,7 +775,7 @@ export default function App() {
         {/* LIST */}
         {status !== "loading" && view === "list" && questions.map(q => {
           const c = counts[q.id] || emptyCount(); const tot = c.A + c.B;
-          const pctA = tot > 0 ? (c.A / tot) * 100 : 50;
+          const pctA = tot > 0 ? Math.round((c.A / tot) * 100) : null;
           const uv = voted[q.id]; const alreadyVoted = !isAdmin && !!uv;
           return (
             <div key={q.id} className="list-card">
@@ -793,17 +814,33 @@ export default function App() {
                   )}
                   {isAdmin && <button className={`count-badge ${c.B > 0 ? "count-b" : "count-zero"}`} onClick={() => decrement(q.id, "B")}>{c.B}</button>}
                 </div>
-                {uv && tot > 0 && <div style={{ height: 3, borderRadius: 2, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
-                  <span style={{ width: `${pctA}%`, height: "100%", background: "#4fc3f7", display: "inline-block" }} />
-                  <span style={{ width: `${100 - pctA}%`, height: "100%", background: "#ce93d8", display: "inline-block" }} />
-                </div>}
+                <div style={{ marginTop: 4, padding: "8px 12px", background: "rgba(255,255,255,0.04)", borderRadius: 10, border: "1px solid rgba(255,255,255,0.08)" }}>
+                  {uv && tot > 0 && pctA !== null ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 12, color: "#4fc3f7", fontWeight: "bold" }}>{pctA}%</span>
+                      <span style={{ fontSize: 11, color: "#665e52" }}>Opt.1</span>
+                      <span style={{ fontSize: 11, color: "#554e46" }}>·</span>
+                      <span style={{ fontSize: 12, color: "#ce93d8", fontWeight: "bold" }}>{100 - pctA}%</span>
+                      <span style={{ fontSize: 11, color: "#665e52" }}>Opt.2</span>
+                      <span style={{ fontSize: 11, color: "#443d36", marginLeft: 4 }}>({tot} vote{tot > 1 ? "s" : ""})</span>
+                      <div style={{ flex: 1, minWidth: 80, height: 4, background: "rgba(255,255,255,0.08)", borderRadius: 2, overflow: "hidden" }}>
+                        <div style={{ width: `${pctA}%`, height: "100%", background: "#4fc3f7", display: "inline-block" }} />
+                        <div style={{ width: `${100 - pctA}%`, height: "100%", background: "#ce93d8", display: "inline-block" }} />
+                      </div>
+                    </div>
+                  ) : (
+                    <p style={{ margin: 0, fontSize: 10, color: "#443d36", fontStyle: "italic", textAlign: "center" }}>
+                      {uv ? "Aucun vote enregistré pour cette carte." : "Votez pour voir les résultats et les icônes."}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           );
         })}
 
         {/* SUMMARY */}
-        {status !== "loading" && view === "summary" && questions.map(q => {
+        {status !== "loading" && view === "summary_disabled" && questions.map(q => {
           const c = counts[q.id] || emptyCount(); const tot = c.A + c.B;
           const pctA = tot > 0 ? Math.round((c.A / tot) * 100) : null;
           const uv = voted[q.id];
