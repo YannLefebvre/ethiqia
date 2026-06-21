@@ -5,13 +5,16 @@ import { ICON_KEYS, ICON_MAX, BILAN_CARDS } from "./gameData";
 import { CARDS_AH } from "./cardsAH";
 
 const PARCOURS = [
-  { id: "algo",      label: "Expliquer les algorithmes",     color: "#f59e0b", cards: [1,2,3,31,32,37] },
-  { id: "roles",     label: "Les rôles de l'IA",             color: "#10b981", cards: [4,5,7,8,12] },
-  { id: "restreind", label: "Restreindre l'usage ?",         color: "#ef4444", cards: [9,10,11,25,28] },
-  { id: "savoir",    label: "Construire un savoir académique",color: "#8b5cf6", cards: [13,14,15,16,18,20,23,24,33] },
-  { id: "inclure",   label: "Inclure, différencier",         color: "#06b6d4", cards: [19,20,21,30] },
-  { id: "compet",    label: "Compétences intermédiaires",    color: "#ec4899", cards: [21,22,24,27,35] },
-  { id: "societal",  label: "Évolution sociétale",           color: "#f97316", cards: [26,29,36] },
+  { id: "donnees",      label: "Des données sensibles",          color: "#f59e0b", cards: [18,25,28,29,35,38] },
+  { id: "roles",        label: "Des rôles pour l'IA",             color: "#10b981", cards: [1,2,3,4,5,6,7,25,29,31] },
+  { id: "transparence", label: "Un peu de transparence",          color: "#ef4444", cards: [11,17,27,34] },
+  { id: "scribe",       label: "L'IA scribe",                     color: "#8b5cf6", cards: [16,17,20] },
+  { id: "competences",  label: "Des compétences à ne pas oublier",color: "#06b6d4", cards: [6,8,14,15,16,20,26,36] },
+  { id: "societe",      label: "Impact sur la société",           color: "#ec4899", cards: [10,24,32,33,30] },
+  { id: "planete",      label: "Impact sur la planète",           color: "#22c55e", cards: [8,13,12,19,35] },
+  { id: "encadrer",     label: "Soutenir et encadrer",            color: "#f97316", cards: [1,2,4,6,26,28,31] },
+  { id: "veracite",     label: "Ce résultat est-il juste et vrai ?", color: "#3b82f6", cards: [5,9,14,22,37,39] },
+  { id: "prompt",       label: "Prompter promptement",            color: "#d946ef", cards: [21,23] },
 ];
 
 
