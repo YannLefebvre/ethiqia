@@ -392,6 +392,87 @@ const TUTORIAL_STEPS = [
   },
 ];
 
+// Carte glissable, façon Reigns : on la fait pencher à gauche (option A) ou
+// à droite (option B) pour choisir. Les boutons restent le repli
+// accessible juste en dessous, dans la modale qui utilise ce composant.
+const SWIPE_THRESHOLD = 90;
+function SwipeCard({ titre, situation, onChoose, disabled }) {
+  const [dx, setDx] = React.useState(0);
+  const [dragging, setDragging] = React.useState(false);
+  const draggingRef = React.useRef(false);
+  const startX = React.useRef(0);
+
+  React.useEffect(() => {
+    const clientX = (e) => (e.touches ? e.touches[0].clientX : e.clientX);
+    const move = (e) => { if (draggingRef.current) setDx(clientX(e) - startX.current); };
+    const up = () => {
+      if (!draggingRef.current) return;
+      draggingRef.current = false;
+      setDragging(false);
+      setDx((current) => {
+        if (current > SWIPE_THRESHOLD) onChoose('B');
+        else if (current < -SWIPE_THRESHOLD) onChoose('A');
+        return 0;
+      });
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+    window.addEventListener('touchmove', move, { passive: false });
+    window.addEventListener('touchend', up);
+    return () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+      window.removeEventListener('touchmove', move);
+      window.removeEventListener('touchend', up);
+    };
+  }, [onChoose]);
+
+  const handleDown = (e) => {
+    if (disabled) return;
+    draggingRef.current = true;
+    setDragging(true);
+    startX.current = e.touches ? e.touches[0].clientX : e.clientX;
+  };
+  const lean = Math.abs(dx) > SWIPE_THRESHOLD * 0.5 ? (dx > 0 ? 'B' : 'A') : null;
+  const chipStyle = (side) => ({
+    width: 30, height: 30, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontSize: 12, fontWeight: 700, flexShrink: 0, transition: 'all 0.2s', fontFamily: "'Playfair Display', serif",
+    background: lean === side ? (side === 'A' ? '#4fc3f7' : '#ce93d8') : 'rgba(255,255,255,0.06)',
+    color: lean === side ? '#0f0c29' : '#665e52',
+    transform: lean === side ? 'scale(1.15)' : 'scale(1)',
+  });
+
+  return (
+    <div style={{ marginBottom: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={chipStyle('A')}>A</div>
+        <div
+          onMouseDown={handleDown}
+          onTouchStart={handleDown}
+          style={{
+            flex: 1, background: 'rgba(255,255,255,0.04)',
+            border: `1px solid ${lean ? (lean === 'A' ? '#4fc3f7' : '#ce93d8') : 'rgba(255,255,255,0.1)'}`,
+            borderRadius: 14, padding: 16,
+            transform: `translateX(${dx}px) rotate(${dx / 18}deg)`,
+            transition: dragging ? 'none' : 'transform 0.35s ease, border-color 0.2s',
+            cursor: disabled ? 'default' : 'grab', touchAction: 'none', userSelect: 'none',
+          }}
+        >
+          <p style={{ margin: 0, fontSize: 13.5, color: '#e8e0d0', lineHeight: 1.6, fontFamily: "'Source Serif 4', serif" }}>
+            {situation}
+          </p>
+        </div>
+        <div style={chipStyle('B')}>B</div>
+      </div>
+      {!disabled && (
+        <p style={{ textAlign: 'center', fontSize: 10.5, color: '#665e52', margin: '8px 0 0' }}>
+          ↔ {lean ? `Relâchez pour valider ${lean}` : 'Glissez la carte, ou choisissez ci-dessous'}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function TutorialModal({ onClose }) {
   const [step, setStep] = useState(0);
   const total = TUTORIAL_STEPS.length;
@@ -1202,8 +1283,19 @@ export default function App() {
                 <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(255,215,100,0.15)", color: "#ffd764", fontFamily: "'Playfair Display', serif", fontWeight: 900, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{activeQ.id}</div>
                 <h2 style={{ margin: 0, fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 900, color: "#f5efe0" }}>{activeQ.titre}</h2>
               </div>
-              <p style={{ fontSize: 13.5, color: "#c0b8a8", lineHeight: 1.6, marginBottom: 18, fontStyle: "italic", borderLeft: "3px solid rgba(255,215,100,0.3)", paddingLeft: 12 }}>{activeQ.situation}</p>
-              {alreadyVoted && <p style={{ fontSize: 11, color: "#ffd764", marginBottom: 10, textAlign: "center" }}>✓ Vous avez déjà voté pour cette carte.</p>}
+              {alreadyVoted ? (
+                <>
+                  <p style={{ fontSize: 13.5, color: "#c0b8a8", lineHeight: 1.6, marginBottom: 18, fontStyle: "italic", borderLeft: "3px solid rgba(255,215,100,0.3)", paddingLeft: 12 }}>{activeQ.situation}</p>
+                  <p style={{ fontSize: 11, color: "#ffd764", marginBottom: 10, textAlign: "center" }}>✓ Vous avez déjà voté pour cette carte.</p>
+                </>
+              ) : (
+                <SwipeCard
+                  titre={activeQ.titre}
+                  situation={activeQ.situation}
+                  disabled={alreadyVoted}
+                  onChoose={(opt) => handleChoice(activeQ.id, opt)}
+                />
+              )}
               <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
                 <button className={`btn-vote opt-a${uv === "A" ? " already-a" : ""}`} disabled={alreadyVoted && uv !== "A"} onClick={() => handleChoice(activeQ.id, "A")}>
                   <span style={{ fontSize: 9, fontWeight: "bold", color: "#4fc3f7", display: "block", marginBottom: 3 }}>OPTION 1{uv === "A" ? " ✓ votre choix" : ""}</span>{activeQ.altA}
